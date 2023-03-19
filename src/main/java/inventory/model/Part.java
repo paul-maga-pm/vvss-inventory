@@ -2,6 +2,8 @@
 package inventory.model;
 
 
+import inventory.model.exception.InvalidPartException;
+
 public abstract class Part {
 
     // Declare fields
@@ -80,10 +82,10 @@ public abstract class Part {
      * @param inStock
      * @param min
      * @param max
-     * @param errorMessage
      * @return 
      */
-    public static String isValidPart(String name, double price, int inStock, int min, int max, String errorMessage) {
+    public static void isValidPart(String name, double price, int inStock, int min, int max) throws InvalidPartException {
+        String errorMessage = "";
         if(name.equals("")) {
             errorMessage += "A name has not been entered. ";
         }
@@ -102,7 +104,9 @@ public abstract class Part {
         if(inStock > max) {
             errorMessage += "Inventory level is higher than the maximum value. ";
         }
-        return errorMessage;
+        if (!errorMessage.isEmpty()) {
+            throw new InvalidPartException(errorMessage);
+        }
     }
     @Override
     public String toString() {

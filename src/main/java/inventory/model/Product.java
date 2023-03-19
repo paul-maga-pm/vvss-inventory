@@ -1,6 +1,7 @@
 
 package inventory.model;
 
+import inventory.model.exception.InvalidProductException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -112,10 +113,10 @@ public class Product {
      * @param inStock
      * @param price
      * @param parts
-     * @param errorMessage
      * @return 
      */
-    public static String isValidProduct(String name, double price, int inStock, int min, int max, ObservableList<Part> parts, String errorMessage) {
+    public static void isValidProduct(String name, double price, int inStock, int min, int max, ObservableList<Part> parts) throws InvalidProductException {
+        String errorMessage = "";
         double sumOfParts = 0.00;
         for (int i = 0; i < parts.size(); i++) {
             sumOfParts += parts.get(i).getPrice();
@@ -144,7 +145,9 @@ public class Product {
         if (sumOfParts > price) {
             errorMessage += "Product price must be greater than cost of parts. ";
         }
-        return errorMessage;
+        if (!errorMessage.isEmpty()) {
+            throw new InvalidProductException(errorMessage);
+        }
     }
 
     @Override

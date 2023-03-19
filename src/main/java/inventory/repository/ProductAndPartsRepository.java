@@ -8,19 +8,19 @@ import javafx.collections.ObservableList;
 import java.io.*;
 import java.util.StringTokenizer;
 
-public class InventoryRepository {
+public class ProductAndPartsRepository {
 
 	private static String filename = "data/items.txt";
 	private Inventory inventory;
 
-	public InventoryRepository(){
+	public ProductAndPartsRepository(){
 		this.inventory=new Inventory();
 		readParts();
 		readProducts();
 	}
 
 	public void readParts(){
-		//ClassLoader classLoader = InventoryRepository.class.getClassLoader();
+		//ClassLoader classLoader = ProductAndPartsRepository.class.getClassLoader();
 		File file = new File(filename);
 		ObservableList<Part> listP = FXCollections.observableArrayList();
 		BufferedReader br = null;
@@ -72,7 +72,7 @@ public class InventoryRepository {
 	}
 
 	public void readProducts(){
-		//ClassLoader classLoader = InventoryRepository.class.getClassLoader();
+		//ClassLoader classLoader = ProductAndPartsRepository.class.getClassLoader();
 		File file = new File(filename);
 
 		ObservableList<Product> listP = FXCollections.observableArrayList();
@@ -125,7 +125,7 @@ public class InventoryRepository {
 
 	public void writeAll() {
 
-		//ClassLoader classLoader = InventoryRepository.class.getClassLoader();
+		//ClassLoader classLoader = ProductAndPartsRepository.class.getClassLoader();
 		File file = new File(filename);
 
 		BufferedWriter bw = null;

@@ -9,4 +9,6 @@ module inventory {
     exports inventory;
     opens inventory.controller to javafx.fxml;
     exports inventory.controller;
+    exports inventory.model.exception;
+    opens inventory.model.exception to javafx.base;
 }

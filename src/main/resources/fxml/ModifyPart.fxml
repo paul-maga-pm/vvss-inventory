@@ -74,7 +74,7 @@
       </ButtonBar>
       <HBox layoutX="200.0" layoutY="-15.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <RadioButton fx:id="inhouseRBtn" mnemonicParsing="false" onAction="#handleInhouseRBtn" text="       In-House">
+            <RadioButton fx:id="inhouseRBtn" mnemonicParsing="false" onAction="#handleInhouseTypeWasSelected" text="       In-House">
                <HBox.margin>
                   <Insets left="180.0" right="40.0" />
                </HBox.margin>
@@ -82,7 +82,7 @@
                   <ToggleGroup fx:id="partType" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="outsourcedRBtn" mnemonicParsing="false" onAction="#handleOutsourcedRBtn" text="      Outsourced" toggleGroup="$partType" />
+            <RadioButton fx:id="outsourcedRBtn" mnemonicParsing="false" onAction="#handleOutsourcedTypeWasSelected" text="      Outsourced" toggleGroup="$partType" />
          </children>
          <padding>
             <Insets top="10.0" />

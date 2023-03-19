@@ -2,6 +2,7 @@ package inventory.controller;
 
 import inventory.model.Part;
 import inventory.model.Product;
+import inventory.model.exception.InvalidProductException;
 import inventory.service.InventoryService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,7 +26,7 @@ import static inventory.controller.MainScreenController.getModifyProductIndex;
 
 
 public class ModifyProductController implements Initializable, Controller {
-    
+
     // Declare fields
     private Stage stage;
     private Parent scene;
@@ -87,14 +88,15 @@ public class ModifyProductController implements Initializable, Controller {
     @FXML
     private TableColumn<Part, Double> deleteProductPriceCol;
 
-    public ModifyProductController(){}
+    public ModifyProductController() {
+    }
 
-    public void setService(InventoryService service){
-        this.service=service;
+    public void setService(InventoryService service) {
+        this.service = service;
         fillWithData();
     }
 
-    private void fillWithData(){
+    private void fillWithData() {
         // Populate add product table view
         addProductTableView.setItems(service.getAllParts());
 
@@ -118,6 +120,7 @@ public class ModifyProductController implements Initializable, Controller {
         addParts = product.getAssociatedParts();
         updateDeleteProductTableView();
     }
+
     /**
      * Initializes the controller class.
      */
@@ -129,28 +132,29 @@ public class ModifyProductController implements Initializable, Controller {
 
     /**
      * Method to add to button handler to switch to scene passed as source
+     *
      * @param event
      * @param source
      * @throws IOException
      */
     @FXML
     private void displayScene(ActionEvent event, String source) throws IOException {
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        FXMLLoader loader= new FXMLLoader(getClass().getResource(source));
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(source));
         //scene = FXMLLoader.load(getClass().getResource(source));
         scene = loader.load();
-        Controller ctrl=loader.getController();
+        Controller ctrl = loader.getController();
         ctrl.setService(service);
         stage.setScene(new Scene(scene));
         stage.show();
     }
-    
+
     /**
      * Method to add values of addParts to the bottom table view of the scene.
      */
     public void updateDeleteProductTableView() {
         deleteProductTableView.setItems(addParts);
-        
+
         deleteProductIdCol.setCellValueFactory(new PropertyValueFactory<>("partId"));
         deleteProductNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         deleteProductInventoryCol.setCellValueFactory(new PropertyValueFactory<>("inStock"));
@@ -159,7 +163,8 @@ public class ModifyProductController implements Initializable, Controller {
 
     /**
      * Ask user for confirmation before deleting selected part from current product.
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     void handleDeleteProduct(ActionEvent event) {
@@ -179,22 +184,24 @@ public class ModifyProductController implements Initializable, Controller {
             System.out.println("Canceled part deletion.");
         }
     }
-    
+
     /**
      * Add selected part from top table view to bottom table view in order to create
      * new product
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     void handleAddProduct(ActionEvent event) {
         Part part = addProductTableView.getSelectionModel().getSelectedItem();
         addParts.add(part);
-        updateDeleteProductTableView();   
+        updateDeleteProductTableView();
     }
 
     /**
      * Ask user for confirmation before canceling product modification
      * and switching scene to Main Screen
+     *
      * @param event
      * @throws IOException
      */
@@ -206,7 +213,7 @@ public class ModifyProductController implements Initializable, Controller {
         alert.setHeaderText("Confirm Cancelation");
         alert.setContentText("Are you sure you want to cancel modifying product?");
         Optional<ButtonType> result = alert.showAndWait();
-        if(result.get() == ButtonType.OK) {
+        if (result.get() == ButtonType.OK) {
             System.out.println("Ok selected. Product modification canceled.");
             displayScene(event, "/fxml/MainScreen.fxml");
         } else {
@@ -217,6 +224,7 @@ public class ModifyProductController implements Initializable, Controller {
     /**
      * Validate given product parameters.  If valid, update product in inventory,
      * else give user an error message explaining why the product is invalid.
+     *
      * @param event
      * @throws IOException
      */
@@ -228,19 +236,13 @@ public class ModifyProductController implements Initializable, Controller {
         String min = minTxt.getText();
         String max = maxTxt.getText();
         errorMessage = "";
-        
+
         try {
-            errorMessage = Product.isValidProduct(name, Double.parseDouble(price), Integer.parseInt(inStock), Integer.parseInt(min), Integer.parseInt(max), addParts, errorMessage);
-            if(errorMessage.length() > 0) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Error Adding Part!");
-                alert.setHeaderText("Error!");
-                alert.setContentText(errorMessage);
-                alert.showAndWait();
-            } else {
-                service.updateProduct(productIndex, productId, name, Double.parseDouble(price), Integer.parseInt(inStock), Integer.parseInt(min), Integer.parseInt(max), addParts);
-                displayScene(event, "/fxml/MainScreen.fxml");
-            }
+            Product.isValidProduct(name, Double.parseDouble(price), Integer.parseInt(inStock), Integer.parseInt(min), Integer.parseInt(max), addParts);
+
+            service.updateProduct(productIndex, productId, name, Double.parseDouble(price), Integer.parseInt(inStock), Integer.parseInt(min), Integer.parseInt(max), addParts);
+            displayScene(event, "/fxml/MainScreen.fxml");
+
         } catch (NumberFormatException e) {
             System.out.println("Form contains blank field.");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -248,12 +250,20 @@ public class ModifyProductController implements Initializable, Controller {
             alert.setHeaderText("Error!");
             alert.setContentText("Form contains blank field.");
             alert.showAndWait();
+        } catch (InvalidProductException exception) {
+            System.out.println(exception.getMessage());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error Adding Product!");
+            alert.setHeaderText("Error!");
+            alert.setContentText(exception.getMessage());
+            alert.showAndWait();
         }
     }
 
     /**
      * Gets search text and inputs into lookupAssociatedPart method to highlight desired part
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     void handleSearchProduct(ActionEvent event) {
