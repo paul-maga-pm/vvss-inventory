@@ -1,7 +1,7 @@
 
 package inventory.controller;
 
-import inventory.model.Part;
+import inventory.model.AbstractPart;
 import inventory.model.Product;
 import inventory.service.InventoryService;
 import javafx.event.ActionEvent;
@@ -27,7 +27,7 @@ public class MainScreenController implements Initializable,Controller {
      // Declare fields
     private Stage stage;
     private Parent scene;
-    private static Part modifyPart;
+    private static AbstractPart modifyPart;
     private static Product modifyProduct;
     private static int modifyPartIndex;
     private static int modifyProductIndex;
@@ -44,19 +44,19 @@ public class MainScreenController implements Initializable,Controller {
     private InventoryService service;
 
     @FXML
-    private TableView<Part> partsTableView;
+    private TableView<AbstractPart> partsTableView;
 
     @FXML
-    private TableColumn<Part, Integer> partsIdCol;
+    private TableColumn<AbstractPart, Integer> partsIdCol;
 
     @FXML
-    private TableColumn<Part, String> partsNameCol;
+    private TableColumn<AbstractPart, String> partsNameCol;
 
     @FXML
-    private TableColumn<Part, Integer> partsInventoryCol;
+    private TableColumn<AbstractPart, Integer> partsInventoryCol;
 
     @FXML
-    private TableColumn<Part, Double> partsPriceCol;
+    private TableColumn<AbstractPart, Double> partsPriceCol;
 
 
     @FXML
@@ -130,17 +130,17 @@ public class MainScreenController implements Initializable,Controller {
      */
     @FXML
     void handleDeletePart(ActionEvent event) {
-        Part part = partsTableView.getSelectionModel().getSelectedItem();
+        AbstractPart part = partsTableView.getSelectionModel().getSelectedItem();
 
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.initModality(Modality.NONE);
         alert.setTitle("Confirmation");
-        alert.setHeaderText("Confirm Part Deletion?");
+        alert.setHeaderText("Confirm AbstractPart Deletion?");
         alert.setContentText("Are you sure you want to delete part " + part.getName() + " from parts?");
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.get() == ButtonType.OK) {
-            System.out.println("Part deleted.");
+            System.out.println("AbstractPart deleted.");
             service.deletePart(part);
         } else {
             System.out.println("Canceled part deletion.");
@@ -171,7 +171,7 @@ public class MainScreenController implements Initializable,Controller {
     }
 
     /**
-     * Switch scene to Add Part
+     * Switch scene to Add AbstractPart
      * @param event
      * @throws IOException
      */
@@ -191,7 +191,7 @@ public class MainScreenController implements Initializable,Controller {
     }
 
     /**
-     * Changes scene to Modify Part screen and passes values of selected part
+     * Changes scene to Modify AbstractPart screen and passes values of selected part
      * and its index
      * @param event
      * @throws IOException

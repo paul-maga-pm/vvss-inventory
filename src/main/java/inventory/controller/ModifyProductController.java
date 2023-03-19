@@ -1,6 +1,6 @@
 package inventory.controller;
 
-import inventory.model.Part;
+import inventory.model.AbstractPart;
 import inventory.model.Product;
 import inventory.model.exception.InvalidProductException;
 import inventory.service.InventoryService;
@@ -30,7 +30,7 @@ public class ModifyProductController implements Initializable, Controller {
     // Declare fields
     private Stage stage;
     private Parent scene;
-    private ObservableList<Part> addParts = FXCollections.observableArrayList();
+    private ObservableList<AbstractPart> addParts = FXCollections.observableArrayList();
     private String errorMessage = new String();
     private int productId;
     private int productIndex = getModifyProductIndex();
@@ -59,34 +59,34 @@ public class ModifyProductController implements Initializable, Controller {
     private TextField productSearchTxt;
 
     @FXML
-    private TableView<Part> addProductTableView;
+    private TableView<AbstractPart> addProductTableView;
 
     @FXML
-    private TableColumn<Part, Integer> addProductIdCol;
+    private TableColumn<AbstractPart, Integer> addProductIdCol;
 
     @FXML
-    private TableColumn<Part, String> addProductNameCol;
+    private TableColumn<AbstractPart, String> addProductNameCol;
 
     @FXML
-    private TableColumn<Part, Integer> addProductInventoryCol;
+    private TableColumn<AbstractPart, Integer> addProductInventoryCol;
 
     @FXML
-    private TableColumn<Part, Double> addProductPriceCol;
+    private TableColumn<AbstractPart, Double> addProductPriceCol;
 
     @FXML
-    private TableView<Part> deleteProductTableView;
+    private TableView<AbstractPart> deleteProductTableView;
 
     @FXML
-    private TableColumn<Part, Integer> deleteProductIdCol;
+    private TableColumn<AbstractPart, Integer> deleteProductIdCol;
 
     @FXML
-    private TableColumn<Part, String> deleteProductNameCol;
+    private TableColumn<AbstractPart, String> deleteProductNameCol;
 
     @FXML
-    private TableColumn<Part, Integer> deleteProductInventoryCol;
+    private TableColumn<AbstractPart, Integer> deleteProductInventoryCol;
 
     @FXML
-    private TableColumn<Part, Double> deleteProductPriceCol;
+    private TableColumn<AbstractPart, Double> deleteProductPriceCol;
 
     public ModifyProductController() {
     }
@@ -168,17 +168,17 @@ public class ModifyProductController implements Initializable, Controller {
      */
     @FXML
     void handleDeleteProduct(ActionEvent event) {
-        Part part = deleteProductTableView.getSelectionModel().getSelectedItem();
+        AbstractPart part = deleteProductTableView.getSelectionModel().getSelectedItem();
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.NONE);
         alert.setTitle("Confirmation");
-        alert.setHeaderText("Confirm Part Deletion!");
+        alert.setHeaderText("Confirm AbstractPart Deletion!");
         alert.setContentText("Are you sure you want to delete part " + part.getName() + " from parts?");
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            System.out.println("Part deleted.");
+            System.out.println("AbstractPart deleted.");
             addParts.remove(part);
         } else {
             System.out.println("Canceled part deletion.");
@@ -193,7 +193,7 @@ public class ModifyProductController implements Initializable, Controller {
      */
     @FXML
     void handleAddProduct(ActionEvent event) {
-        Part part = addProductTableView.getSelectionModel().getSelectedItem();
+        AbstractPart part = addProductTableView.getSelectionModel().getSelectedItem();
         addParts.add(part);
         updateDeleteProductTableView();
     }

@@ -1,6 +1,6 @@
 package inventory.controller;
 
-import inventory.model.Part;
+import inventory.model.AbstractPart;
 import inventory.model.exception.InvalidPartException;
 import inventory.service.InventoryService;
 import javafx.event.ActionEvent;
@@ -111,7 +111,7 @@ public class AddPartController implements Initializable, Controller {
         alert.setContentText("Are you sure you want to cancel adding part?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            System.out.println("Ok selected. Part addition canceled.");
+            System.out.println("Ok selected. AbstractPart addition canceled.");
             displayScene(event, "/fxml/MainScreen.fxml");
         } else {
             System.out.println("Cancel clicked.");
@@ -160,7 +160,7 @@ public class AddPartController implements Initializable, Controller {
         errorMessage = "";
 
         try {
-            Part.isValidPart(name, Double.parseDouble(price), Integer.parseInt(inStock), Integer.parseInt(min), Integer.parseInt(max));
+            AbstractPart.isValidPart(name, Double.parseDouble(price), Integer.parseInt(inStock), Integer.parseInt(min), Integer.parseInt(max));
 
             if (isOutsourced == true) {
                 service.addOutsourcePart(name, Double.parseDouble(price), Integer.parseInt(inStock), Integer.parseInt(min), Integer.parseInt(max), partDynamicValue);
@@ -172,14 +172,14 @@ public class AddPartController implements Initializable, Controller {
         } catch (NumberFormatException e) {
             System.out.println("Form contains blank field.");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error Adding Part!");
+            alert.setTitle("Error Adding AbstractPart!");
             alert.setHeaderText("Error!");
             alert.setContentText("Form contains blank field.");
             alert.showAndWait();
         } catch (InvalidPartException exception) {
             System.out.println(exception.getMessage());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error Adding Part!");
+            alert.setTitle("Error Adding AbstractPart!");
             alert.setHeaderText("Error!");
             alert.setContentText(exception.getMessage());
             alert.showAndWait();

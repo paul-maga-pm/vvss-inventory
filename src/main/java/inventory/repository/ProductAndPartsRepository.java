@@ -22,13 +22,13 @@ public class ProductAndPartsRepository {
 	public void readParts(){
 		//ClassLoader classLoader = ProductAndPartsRepository.class.getClassLoader();
 		File file = new File(filename);
-		ObservableList<Part> listP = FXCollections.observableArrayList();
+		ObservableList<AbstractPart> listP = FXCollections.observableArrayList();
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(file));
 			String line = null;
 			while((line=br.readLine())!=null){
-				Part part=getPartFromString(line);
+				AbstractPart part=getPartFromString(line);
 				if (part!=null)
 					listP.add(part);
 			}
@@ -41,8 +41,8 @@ public class ProductAndPartsRepository {
 		inventory.setAllParts(listP);
 	}
 
-	private Part getPartFromString(String line){
-		Part item=null;
+	private AbstractPart getPartFromString(String line){
+		AbstractPart item=null;
 		if (line==null|| line.equals("")) return null;
 		StringTokenizer st=new StringTokenizer(line, ",");
 		String type=st.nextToken();
@@ -110,10 +110,10 @@ public class ProductAndPartsRepository {
 			String partIDs=st.nextToken();
 
 			StringTokenizer ids= new StringTokenizer(partIDs,":");
-			ObservableList<Part> list= FXCollections.observableArrayList();
+			ObservableList<AbstractPart> list= FXCollections.observableArrayList();
 			while (ids.hasMoreTokens()) {
 				String idP = ids.nextToken();
-				Part part = inventory.lookupPart(idP);
+				AbstractPart part = inventory.lookupPart(idP);
 				if (part != null)
 					list.add(part);
 			}
@@ -129,12 +129,12 @@ public class ProductAndPartsRepository {
 		File file = new File(filename);
 
 		BufferedWriter bw = null;
-		ObservableList<Part> parts=inventory.getAllParts();
+		ObservableList<AbstractPart> parts=inventory.getAllParts();
 		ObservableList<Product> products=inventory.getProducts();
 
 		try {
 			bw = new BufferedWriter(new FileWriter(file));
-			for (Part p:parts) {
+			for (AbstractPart p:parts) {
 				System.out.println(p.toString());
 				bw.write(p.toString());
 				bw.newLine();
@@ -142,7 +142,7 @@ public class ProductAndPartsRepository {
 
 			for (Product pr:products) {
 				String line=pr.toString()+",";
-				ObservableList<Part> list= pr.getAssociatedParts();
+				ObservableList<AbstractPart> list= pr.getAssociatedParts();
 				int index=0;
 				while(index<list.size()-1){
 					line=line+list.get(index).getPartId()+":";
@@ -159,7 +159,7 @@ public class ProductAndPartsRepository {
 		}
 	}
 
-	public void addPart(Part part){
+	public void addPart(AbstractPart part){
 		inventory.addPart(part);
 		writeAll();
 	}
@@ -177,7 +177,7 @@ public class ProductAndPartsRepository {
 		return inventory.getAutoProductId();
 	}
 
-	public ObservableList<Part> getAllParts(){
+	public ObservableList<AbstractPart> getAllParts(){
 		return inventory.getAllParts();
 	}
 
@@ -185,7 +185,7 @@ public class ProductAndPartsRepository {
 		return inventory.getProducts();
 	}
 
-	public Part lookupPart (String search){
+	public AbstractPart lookupPart (String search){
 		return inventory.lookupPart(search);
 	}
 
@@ -193,7 +193,7 @@ public class ProductAndPartsRepository {
 		return inventory.lookupProduct(search);
 	}
 
-	public void updatePart(int partIndex, Part part){
+	public void updatePart(int partIndex, AbstractPart part){
 		inventory.updatePart(partIndex, part);
 		writeAll();
 	}
@@ -203,7 +203,7 @@ public class ProductAndPartsRepository {
 		writeAll();
 	}
 
-	public void deletePart(Part part){
+	public void deletePart(AbstractPart part){
 		inventory.deletePart(part);
 		writeAll();
 	}

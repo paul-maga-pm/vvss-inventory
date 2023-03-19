@@ -2,7 +2,7 @@
 package inventory.model;
 
 
-public class OutsourcedPart extends Part {
+public class OutsourcedPart extends AbstractPart {
     
     // Declare fields
     private String companyName;

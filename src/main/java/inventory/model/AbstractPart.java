@@ -4,7 +4,7 @@ package inventory.model;
 
 import inventory.model.exception.InvalidPartException;
 
-public abstract class Part {
+public abstract class AbstractPart {
 
     // Declare fields
     private int partId;
@@ -15,7 +15,7 @@ public abstract class Part {
     private int max;
     
     // Constructor
-    public Part(int partId, String name, double price, int inStock, int min, int max) {
+    protected AbstractPart(int partId, String name, double price, int inStock, int min, int max) {
         this.partId = partId;
         this.name = name;
         this.price = price;
@@ -86,7 +86,7 @@ public abstract class Part {
      */
     public static void isValidPart(String name, double price, int inStock, int min, int max) throws InvalidPartException {
         String errorMessage = "";
-        if(name.equals("")) {
+        if("".equals(name)) {
             errorMessage += "A name has not been entered. ";
         }
         if(price < 0.01) {

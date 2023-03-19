@@ -21,12 +21,12 @@ public class InventoryService {
         repo.addPart(outsourcedPart);
     }
 
-    public void addProduct(String name, double price, int inStock, int min, int  max, ObservableList<Part> addParts){
+    public void addProduct(String name, double price, int inStock, int min, int  max, ObservableList<AbstractPart> addParts){
         Product product = new Product(repo.getAutoProductId(), name, price, inStock, min, max, addParts);
         repo.addProduct(product);
     }
 
-    public ObservableList<Part> getAllParts() {
+    public ObservableList<AbstractPart> getAllParts() {
         return repo.getAllParts();
     }
 
@@ -34,7 +34,7 @@ public class InventoryService {
         return repo.getAllProducts();
     }
 
-    public Part lookupPart(String search) {
+    public AbstractPart lookupPart(String search) {
         return repo.lookupPart(search);
     }
 
@@ -52,12 +52,12 @@ public class InventoryService {
         repo.updatePart(partIndex, outsourcedPart);
     }
 
-    public void updateProduct(int productIndex, int productId, String name, double price, int inStock, int min, int max, ObservableList<Part> addParts){
+    public void updateProduct(int productIndex, int productId, String name, double price, int inStock, int min, int max, ObservableList<AbstractPart> addParts){
         Product product = new Product(productId, name, price, inStock, min, max, addParts);
         repo.updateProduct(productIndex, product);
     }
 
-    public void deletePart(Part part){
+    public void deletePart(AbstractPart part){
         repo.deletePart(part);
     }
 
