@@ -1,6 +1,7 @@
 package inventory.service;
 
 import inventory.model.*;
+import inventory.model.exception.InvalidProductException;
 import inventory.repository.ProductAndPartsRepository;
 import javafx.collections.ObservableList;
 
@@ -21,7 +22,9 @@ public class InventoryService {
         repo.addPart(outsourcedPart);
     }
 
-    public void addProduct(String name, double price, int inStock, int min, int  max, ObservableList<AbstractPart> addParts){
+    public void addProduct(String name, double price, int inStock, int min, int  max, ObservableList<AbstractPart> addParts) throws InvalidProductException {
+        Product.isValidProduct(name, price, inStock, min, max, addParts);
+
         Product product = new Product(repo.getAutoProductId(), name, price, inStock, min, max, addParts);
         repo.addProduct(product);
     }

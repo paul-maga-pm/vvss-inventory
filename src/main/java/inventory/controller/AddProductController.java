@@ -212,8 +212,6 @@ public class AddProductController implements Initializable, Controller {
         errorMessage = "";
 
         try {
-            Product.isValidProduct(name, Double.parseDouble(price), Integer.parseInt(inStock), Integer.parseInt(min), Integer.parseInt(max), addParts);
-
             service.addProduct(name, Double.parseDouble(price), Integer.parseInt(inStock), Integer.parseInt(min), Integer.parseInt(max), addParts);
             displayScene(event, "/fxml/MainScreen.fxml");
 
