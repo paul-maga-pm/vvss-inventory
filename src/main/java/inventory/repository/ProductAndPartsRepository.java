@@ -10,10 +10,17 @@ import java.util.StringTokenizer;
 
 public class ProductAndPartsRepository {
 
-	private static String filename = "data/items.txt";
+	private String filename = "data/items.txt";
 	private Inventory inventory;
 
 	public ProductAndPartsRepository(){
+		this.inventory=new Inventory();
+		readParts();
+		readProducts();
+	}
+
+	public ProductAndPartsRepository(String filePath) {
+		this.filename = filePath;
 		this.inventory=new Inventory();
 		readParts();
 		readProducts();
