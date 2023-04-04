@@ -72,7 +72,7 @@ class InventoryServiceTest {
         }
 
         // then
-        assertNotNull(productRepository.lookupProduct("product"));
+        assertNotNull(productRepository.lookupProduct(name));
     }
 
     @ParameterizedTest
@@ -92,7 +92,7 @@ class InventoryServiceTest {
         }
 
         // then
-        assertNotNull(productRepository.lookupProduct("product"));
+        assertNotNull(productRepository.lookupProduct(name));
 
     }
 
