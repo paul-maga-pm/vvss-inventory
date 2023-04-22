@@ -19,6 +19,13 @@ public class Inventory {
         this.autoPartId=0;
     }
 
+    public Inventory(ObservableList<Product> products) {
+        this.products = products;
+        this.autoProductId = products.stream()
+                .map(Product::getProductId)
+                .max(Integer::compareTo).get() + 1;
+    }
+
     // Declare methods
     /**
      * Add new product to observable list products
