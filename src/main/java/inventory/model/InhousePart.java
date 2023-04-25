@@ -5,6 +5,7 @@ public class InhousePart extends AbstractPart {
     // Declare fields
     private int machineId;
 
+
     // Constructor
     public InhousePart(int partId, String name, double price, int inStock, int min, int max, int machineId) {
         super(partId, name, price, inStock, min, max);
