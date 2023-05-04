@@ -5,7 +5,9 @@ module inventory {
 
     opens inventory.model to javafx.base;
     exports inventory.model;
-    opens inventory to javafx.fxml;
+    opens inventory to javafx.fxml,
+            org.junit.jupiter.engine,
+            org.junit.platform.engine;
     exports inventory;
     opens inventory.controller to javafx.fxml;
     exports inventory.controller;
