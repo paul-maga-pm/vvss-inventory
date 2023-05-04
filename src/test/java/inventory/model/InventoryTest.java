@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InventoryTest {
+public class InventoryTest {
 
     static Inventory inventory;
     static Inventory emptyInventory;
     @BeforeAll
-    static void setUpInventory() {
+    public static void setUpInventory() {
         Product p1 = new Product(1, "cuie", 0, 0, 0, 0, null);
         Product p2 = new Product(2, "ciment", 0, 0, 0, 0, null);
         Product p3 = new Product(3, "var", 0, 0, 0, 0, null);
@@ -23,7 +23,7 @@ class InventoryTest {
     // Testlink - do not change name
     @DisplayName("F02_TC01")
     @Test
-    void givenNonEmptyList_whenSearchCuie_thenCuieIsReturned() {
+    public void givenNonEmptyList_whenSearchCuie_thenCuieIsReturned() {
         Product foundProduct = inventory.lookupProduct("cuie");
         assertNotNull(foundProduct);
         assertEquals(foundProduct.getName(), "cuie");
@@ -31,7 +31,7 @@ class InventoryTest {
 
     @DisplayName("F02_TC02")
     @Test
-    void givenNonEmptyList_whenSearch2_thenCimentIsReturned() {
+    public void givenNonEmptyList_whenSearch2_thenCimentIsReturned() {
         Product foundProduct = inventory.lookupProduct("2");
         assertNotNull(foundProduct);
         assertEquals(foundProduct.getName(), "ciment");
@@ -39,7 +39,7 @@ class InventoryTest {
 
     @DisplayName("F02_TC03")
     @Test
-    void givenNonEmptyList_whenSearchVar_thenVarIsReturned() {
+    public void givenNonEmptyList_whenSearchVar_thenVarIsReturned() {
         Product foundProduct = inventory.lookupProduct("var");
         assertNotNull(foundProduct);
         assertEquals(foundProduct.getName(), "var");
@@ -48,13 +48,13 @@ class InventoryTest {
     // Testlink - do not change name
     @Test
     @DisplayName("F02_TC04")
-    void givenNonEmptyList_whenSearchByNonExistentName_thenNullIsReturned() {
+    public void givenNonEmptyList_whenSearchByNonExistentName_thenNullIsReturned() {
        assertNull(inventory.lookupProduct("alabala"));
     }
 
     @Test
     @DisplayName("F02_TC05")
-    void givenEmptyList_whenSearchByAlabala_thenDefaultProductIsReturned() {
+    public void givenEmptyList_whenSearchByAlabala_thenDefaultProductIsReturned() {
         Product foundProduct = emptyInventory.lookupProduct("alabala");
         assertNotNull(foundProduct);
         assertEquals(0, foundProduct.getProductId());
