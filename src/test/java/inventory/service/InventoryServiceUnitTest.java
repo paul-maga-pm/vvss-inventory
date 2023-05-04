@@ -23,7 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
-class InventoryServiceUnitTest {
+public class InventoryServiceUnitTest {
 
     @Mock
     private ProductAndPartsRepository repositoryMock;
@@ -41,7 +41,7 @@ class InventoryServiceUnitTest {
     private static final ObservableList<AbstractPart> addParts = FXCollections.observableArrayList(part);
 
     @Test
-    void givenValidProduct_whenAddProductIsCalled_thenProductIsSaved() {
+    public void givenValidProduct_whenAddProductIsCalled_thenProductIsSaved() {
         // given
         Mockito.doNothing().when(repositoryMock).addProduct(any());
         Mockito.when(repositoryMock.getAutoProductId()).thenReturn(id);
@@ -63,7 +63,7 @@ class InventoryServiceUnitTest {
     }
 
     @Test
-    void givenProduct_whenDeleteProductIsCalled_thenProductIsDeleted() {
+    public void givenProduct_whenDeleteProductIsCalled_thenProductIsDeleted() {
         // given
         Mockito.doNothing().when(repositoryMock).deleteProduct(any());
         Mockito.when(repositoryMock.lookupProduct(name)).thenReturn(null);
