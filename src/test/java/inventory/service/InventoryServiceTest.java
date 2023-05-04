@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InventoryServiceTest {
+public class InventoryServiceTest {
 
     public static final String DATA_TEST_FILE = "data/test.txt";
     private ProductAndPartsRepository productRepository;
@@ -34,7 +34,7 @@ class InventoryServiceTest {
     private static final ObservableList<AbstractPart> addParts = FXCollections.observableArrayList(new InhousePart(1, "1", 2, 15, 10, 20, 1));
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         clearTestFile();
         productRepository = new ProductAndPartsRepository(DATA_TEST_FILE);
         inventoryServiceThatIsTested = new InventoryService(productRepository);
@@ -57,7 +57,7 @@ class InventoryServiceTest {
 
     @ParameterizedTest
     @MethodSource("getValidProducts")
-    void givenValidProduct_whenAddProduct_thenProductIsSaved(String name,
+    public void givenValidProduct_whenAddProduct_thenProductIsSaved(String name,
                                                              double price,
                                                              int inStock,
                                                              int min,
@@ -77,7 +77,7 @@ class InventoryServiceTest {
 
     @ParameterizedTest
     @ArgumentsSource(ProductArgumentsProvider.class)
-    void givenValidProductByProvider_whenAddProduct_thenProductIsSaved(String name,
+    public void givenValidProductByProvider_whenAddProduct_thenProductIsSaved(String name,
                                                                        double price,
                                                                        int inStock,
                                                                        int min,
@@ -96,7 +96,7 @@ class InventoryServiceTest {
 
     }
 
-    static class ProductArgumentsProvider implements ArgumentsProvider {
+    public static class ProductArgumentsProvider implements ArgumentsProvider {
 
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
@@ -109,7 +109,7 @@ class InventoryServiceTest {
         }
     }
 
-    static Stream<Arguments> getValidProducts() {
+    public static Stream<Arguments> getValidProducts() {
         // given
         return Stream.of(
                 Arguments.arguments(name, price, 15, 10, 20, addParts),
@@ -121,7 +121,7 @@ class InventoryServiceTest {
     @Test
     @DisplayName("Test TC1_ECP")
     @Timeout(1)
-    void givenMin10AndMax20_whenAddProduct_thenProductIsSaved() {
+    public void givenMin10AndMax20_whenAddProduct_thenProductIsSaved() {
         // given
         int min = 10;
         int max = 20;
@@ -140,7 +140,7 @@ class InventoryServiceTest {
 
     @Test
     @DisplayName("Test TC2_ECP")
-    void givenMinMinus1AndMax20_whenAddProduct_thenInvalidProductExceptionIsThrown() {
+    public void givenMinMinus1AndMax20_whenAddProduct_thenInvalidProductExceptionIsThrown() {
         // given
         int min = -1;
         int max = 20;
@@ -154,7 +154,7 @@ class InventoryServiceTest {
 
     @Test
     @DisplayName("Test TC3_ECP")
-    void givenMin10AndMax5_whenAdd_Product_thenInvalidProductExceptionIsThrown() {
+    public void givenMin10AndMax5_whenAdd_Product_thenInvalidProductExceptionIsThrown() {
         // given
         int min = 10;
         int max = 5;
@@ -168,7 +168,7 @@ class InventoryServiceTest {
 
     @Test
     @DisplayName("Test TC4_BVA")
-    void givenMin0AndMax1_whenAddProduct_thenProductIsSaved() {
+    public void givenMin0AndMax1_whenAddProduct_thenProductIsSaved() {
         // given
         int min = 0;
         int max = 1;
@@ -188,7 +188,7 @@ class InventoryServiceTest {
 
     @Test
     @DisplayName("Test TC5_BVA")
-    void givenMin1AndMax2_whenAddProduct_thenProductIsSaved() {
+    public void givenMin1AndMax2_whenAddProduct_thenProductIsSaved() {
         // given
         int min = 1;
         int max = 2;
@@ -208,7 +208,7 @@ class InventoryServiceTest {
 
     @Test
     @DisplayName("Test TC6_BVA")
-    void givenMinMinus1AndMax0_whenAddProduct_thenInvalidProductExceptionIsThrown() {
+    public void givenMinMinus1AndMax0_whenAddProduct_thenInvalidProductExceptionIsThrown() {
         // given
         int min = -1;
         int max = 0;
@@ -222,7 +222,7 @@ class InventoryServiceTest {
 
     @Test
     @DisplayName("Test TC7_BVA")
-    void givenMin2AndMax1_whenAddProduct_thenInvalidProductExceptionIsThrown() {
+    public void givenMin2AndMax1_whenAddProduct_thenInvalidProductExceptionIsThrown() {
 
         // given
         int min = 2;

@@ -11,4 +11,5 @@ module inventory {
     exports inventory.controller;
     exports inventory.model.exception;
     opens inventory.model.exception to javafx.base;
+
 }
