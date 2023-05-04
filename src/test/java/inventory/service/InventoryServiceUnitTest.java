@@ -7,43 +7,46 @@ import inventory.model.exception.InvalidProductException;
 import inventory.repository.ProductAndPartsRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class InventoryServiceUnitTest {
 
     @Mock
-    ProductAndPartsRepository repositoryMock;
+    private ProductAndPartsRepository repositoryMock;
 
     @InjectMocks
-    InventoryService service;
+    private InventoryService service;
+
+    private static final int id = 1;
+    private static final String name = "name";
+    private static final double price = 10.;
+    private static final int inStock = 10;
+    private static final int min = 5;
+    private static final int max = 15;
+    private static final AbstractPart part = new InhousePart(1, "part_name", 10.0, 5, 1, 10, 2);
+    private static final ObservableList<AbstractPart> addParts = FXCollections.observableArrayList(part);
 
     @Test
     void givenValidProduct_whenAddProductIsCalled_thenProductIsSaved() {
         // given
-        Integer id = 1;
-        String name = "name";
-        Double price = 10.;
-        Integer inStock = 10;
-        Integer min = 5;
-        Integer max = 15;
-        AbstractPart part = new InhousePart(1, "part_name", 10.0, 5, 1, 10, 2);
-        ObservableList<AbstractPart> addParts = FXCollections.observableArrayList(part);
-
         Mockito.doNothing().when(repositoryMock).addProduct(any());
         Mockito.when(repositoryMock.getAutoProductId()).thenReturn(id);
         Mockito.when(repositoryMock.lookupProduct(name)).thenReturn(new Product(id, name, price, inStock, min, max, addParts));
+
         // when
         try {
             service.addProduct(name, price, inStock, min, max, addParts);
@@ -53,8 +56,25 @@ class InventoryServiceUnitTest {
         }
 
         // then
-        Product addedProduct = repositoryMock.lookupProduct(name);
+        Mockito.verify(repositoryMock, times(1)).addProduct(new Product(id, name, price, inStock, min, max, addParts));
+        Product addedProduct = service.lookupProduct(name);
         assertNotNull(addedProduct);
         assertEquals(id, addedProduct.getProductId());
+    }
+
+    @Test
+    void givenProduct_whenDeleteProductIsCalled_thenProductIsDeleted() {
+        // given
+        Mockito.doNothing().when(repositoryMock).deleteProduct(any());
+        Mockito.when(repositoryMock.lookupProduct(name)).thenReturn(null);
+
+        //when
+        service.deleteProduct(new Product(id, name, price, inStock, min, max, addParts));
+
+        //then
+        Mockito.verify(repositoryMock, times(1)).deleteProduct(new Product(id, name, price, inStock, min, max, addParts));
+        Product product = service.lookupProduct(name);
+        assertNull(product);
+
     }
 }
